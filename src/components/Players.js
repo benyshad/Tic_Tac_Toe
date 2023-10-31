@@ -13,9 +13,11 @@ const Players = ({ name, symbol, isActive }) => {
     setPlayerName(event.target.value)
   }
 
+  
+
 
   return (
-    <li className={isActive ? 'active' : undefined}>
+    <li className={isActive === symbol ? 'active' : undefined}>
         <span className="player">
           {editing ? <input type="text" value={playerName} onChange={nameChangeHandler} /> : <span className="player-name"> {playerName} </span> }
           <span className="player-symbol"> {symbol} </span>
