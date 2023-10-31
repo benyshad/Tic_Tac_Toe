@@ -23,7 +23,7 @@ const GameBoard = ({ logInfo, boxClickedHandler }) => {
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button onClick={() => boxClickedHandler(rowIndex, colIndex)}>{playerSymbol}</button>
+                <button disabled={playerSymbol != null && true} onClick={() => boxClickedHandler(rowIndex, colIndex)}>{playerSymbol}</button>
               </li>
             ))}
           </ol>
