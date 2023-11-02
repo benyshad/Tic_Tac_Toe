@@ -44,6 +44,10 @@ const checkForWinner = (board) => {
 }
 
 function App() {
+  const [playerName, setPlayerName] = useState({
+    X: 'Player 1',
+    O: 'Player 2'
+  })
   const [logInfo, setLogInfo] = useState([]);
   let activePlayer = deriveActivePlayer(logInfo);
   let winner = null
@@ -63,12 +67,12 @@ function App() {
       return board
     });
   }
-  if (logInfo.length === 9) {
-    winner = 'draw'
-  }
-  winner = checkForWinner(board)
-  if (winner) {
-    console.log(winner);
+  
+  winner = playerName[checkForWinner(board)]
+  if (!winner) {
+    if (logInfo.length === 9) {
+      winner = 'draw'
+    }
   }
 
   const boxClickedHandler = (rowIndex, colIndex) => {
@@ -81,16 +85,29 @@ function App() {
       ];
       return updatedLogInfo;
     });
-
   };
+
+  const rematchHandler = () => {
+    setLogInfo([])
+  }
+
+  const renamePlayerHandler = (symbol, newName) => {
+    setPlayerName((prevName) => {
+      const updatedNames = {
+        ...prevName,
+        [symbol]: newName
+      }
+      return updatedNames
+    })
+  }
 
   return (
     <div>
       <div id="game-container">
-        {winner && <Gameover winner={winner}/>}
+        {winner && <Gameover winner={winner} rematchHandler={rematchHandler} />}
         <ol id="players" className="highlight-player">
-          <Players name="Player 1" symbol="X" isActive={activePlayer} />
-          <Players name="Player 2" symbol="O" isActive={activePlayer} />
+          <Players name="Player 1" symbol="X" isActive={activePlayer} onRename={renamePlayerHandler} />
+          <Players name="Player 2" symbol="O" isActive={activePlayer} onRename={renamePlayerHandler} />
         </ol>
         <GameBoard board={board} logInfo={logInfo} boxClickedHandler={boxClickedHandler} />
       </div>
